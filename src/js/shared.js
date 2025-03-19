@@ -2,6 +2,13 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
+document.addEventListener("DOMContentLoaded", appendFooterText);
+
+function appendFooterText() {
+    const pTag = document.querySelector("footer").querySelector("p");
+    pTag.textContent = `© 2024 - ${new Date().getFullYear()} Азовский Государственный Педагогический Университет. Все права защищены.`;
+}
+
 async function refreshTokensIfRequired() {
     const accessToken = getAccessToken();
     if (accessToken) {
