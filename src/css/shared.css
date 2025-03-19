@@ -1,0 +1,93 @@
+.body-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    background-color: #1e6883;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.logo {
+    text-align: center;
+    font-size: 5px;
+    color: white;
+}
+
+.main-navigation {
+    visibility: hidden;
+    display: flex;
+    gap: 20px;
+}
+
+.main-navigation a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 550;
+    transition: all 0.4s;
+}
+
+.main-navigation a:hover {
+    color: black;
+}
+
+.sign-in-button {
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 10px;
+    transition: all 0.4s;
+    color: #1e6883;
+    font-weight: 600;
+}
+
+.sign-in-button:hover {
+    color: white;
+    background-color: black;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info span{
+    font-size: 18px;
+    color: white;
+    font-weight: 550;
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    flex: 1;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    background-color: #1e6883;
+    padding: 20px 0 20px 0;
+}
+
+footer p{
+    color: white;
+}
+
+.new-entity-button{
+    background: none;
+    color: #1e6883;
+    font-weight: 550;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.new-entity-button:hover{
+    color: #15505f;
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/problems.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <title>Заявки</title>
+</head>
+<body>
+<div class="body-container">
+    <header>
+        <a class="logo" href="index.html">
+            <svg width="114" height="31" viewBox="0 0 114 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M31.3878 0.029541H47.9571V7.01604H30.293V1.13392C30.293 0.525624 30.7848 0.029541 31.3878 0.029541Z"
+                      fill="white"/>
+                <path d="M49.8008 0.029541H71.9087C72.5118 0.029541 73.0036 0.525624 73.0036 1.13392V7.01604H49.8008V0.029541Z"
+                      fill="white"/>
+                <path d="M30.5337 6.47852H23.6074V30.1665H30.5337V6.47852Z" fill="white"/>
+                <path d="M56.7154 6.85059H49.8008V30.1724H56.7154V6.85059Z" fill="white"/>
+                <path d="M72.4473 6.50806H78.2729C78.8759 6.50806 79.3677 7.00414 79.3677 7.61243V30.1724H72.4531V6.50806H72.4473Z"
+                      fill="white"/>
+                <path d="M89.8085 30.1725L82.0215 30.137L106.149 0.029541H114.001L89.8085 30.1725Z"
+                      fill="white"/>
+                <path d="M14.1163 0.029541H23.6071V6.77391H13.0215V1.13392C13.0215 0.525624 13.5133 0.029541 14.1163 0.029541Z"
+                      fill="white"/>
+                <path d="M24.6025 16.3884H13.1621V23.1328H24.6025V16.3884Z" fill="white"/>
+                <path d="M7.56947 6.62036H13.1609V16.3885H6.47461V7.72474C6.47461 7.11644 6.96642 6.62036 7.56947 6.62036Z"
+                      fill="white"/>
+                <path d="M1.09486 16.1758H6.68625V30.1665H0V17.2802C0 16.6719 0.491808 16.1758 1.09486 16.1758Z"
+                      fill="white"/>
+                <path d="M85.3633 6.4314H92.0495V18.2606H86.4581C85.8551 18.2606 85.3633 17.7645 85.3633 17.1562V6.4314Z"
+                      fill="white"/>
+                <path d="M78.6777 0H85.364V6.43136H80.3229C79.4154 6.43136 78.6836 5.68724 78.6836 4.77775V0H78.6777Z"
+                      fill="white"/>
+            </svg>
+            <h1>Платформа управления <br>автоматизацией</h1>
+        </a>
+        <nav id="navigationPanel" class="main-navigation">
+            <a href="problems.html">ЗАЯВКИ</a>
+            <a href="users.html">ПОЛЬЗОВАТЕЛИ</a>
+            <a href="#">О РЕСУРСЕ</a>
+        </nav>
+
+        <div id="user-info" class="user-info">
+            <span id="email"></span>
+            <button id="logout-button" class="sign-in-button" aria-label="Выход">
+                Выход
+                <!--                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+                <!--                    <path d="M10 3H5C4.47 3 3.96 3.21 3.59 3.59C3.21 3.96 3 4.47 3 5V19C3 19.53 3.21 20.04 3.59 20.41C3.96 20.79 4.47 21 5 21H10"-->
+                <!--                          stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>-->
+                <!--                    <path d="M17 16L21 12L17 8"-->
+                <!--                          stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>-->
+                <!--                    <path d="M21 12H10"-->
+                <!--                          stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>-->
+                <!--                </svg>-->
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="problems-container">
+            <div class="tools">
+                <section>
+                <select id="problemStatuses">
+                    <option value="All">Все</option>
+                    <option value="Pending">В процессе рассмотрения</option>
+                    <option value="InProgress">Выполняется</option>
+                    <option value="Completed">Выполнено</option>
+                </select>
+                </section>
+
+                <button class="new-entity-button">+Новая заявка</button>
+            </div>
+            <ul class="problems-list">
+
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Азовский Государственный Педагогический Университет. Все права защищены.</p>
+    </footer>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/problems.js"></script>
+</body>
+</html>

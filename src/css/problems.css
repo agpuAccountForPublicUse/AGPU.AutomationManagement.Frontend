@@ -1,0 +1,27 @@
+@import "reset.css";
+@import "shared.css";
+
+main{
+    min-width: 100vh;
+}
+
+.problems-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 50px 350px;
+}
+
+.tools{
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    gap: 5px;
+}
+
+.tools select{
+    border: 2px solid #1e6883;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: inherit;
+}

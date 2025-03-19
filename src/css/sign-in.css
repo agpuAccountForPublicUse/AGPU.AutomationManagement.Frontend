@@ -1,0 +1,78 @@
+@import "reset.css";
+@import "shared.css";
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+    gap: 15px;
+    min-width: 350px;
+    padding: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%);
+    box-shadow: 5px 15px 30px rgba(0, 0, 0, 0.3), 5px 10px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+
+.sign-in-form-container h1 {
+    color: #1e6883;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sign-in-form input {
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.showPassword-container{
+    display: flex;
+    gap: 5px;
+    input {
+        min-width: 20px;
+    }
+}
+
+.sign-in-form button {
+    padding: 10px;
+    background-color: #1e6883;
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 550;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.sign-in-form button:hover {
+    background-color: #15505f;
+}
+
+.signInErrorMessage{
+    display: none;
+    color: red;
+    font-size: 16px;
+}
+
+footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
