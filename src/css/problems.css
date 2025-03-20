@@ -25,3 +25,87 @@ main{
     padding: 5px;
     font-size: inherit;
 }
+
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    display: flex;
+    padding: 10px 20px 15px 20px;
+    flex-direction: column;
+    min-height: auto;
+    min-width: 450px;
+    background-color: #1e6883;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.close-button {
+    color: red;
+    font-weight: bold;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+}
+
+.addProblemForm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.addProblemForm label {
+    font-weight: 550;
+    font-size: 18px;
+}
+
+.addProblemForm input, .description {
+    font-weight: 550;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.addProblemForm select{
+    font-weight: 550;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.addProblemForm button{
+    margin-top: 20px;
+}
+
+.description {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    overflow-y: auto;
+}
+
+.errorMessage{
+    display: none;
+    color: red;
+    font-size: 16px;
+}

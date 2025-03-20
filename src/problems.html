@@ -70,13 +70,45 @@
                 </select>
                 </section>
 
-                <button class="new-entity-button">+Новая заявка</button>
+                <button class="new-entity-button" onclick="onAddProblemButtonClicked()">+Новая заявка</button>
             </div>
             <ul class="problems-list">
 
             </ul>
         </div>
     </main>
+
+    <div id="addProblemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Новая проблема</h2>
+                <span class="close-button" onclick="onCloseProblemAddingModalClicked()">&times;</span>
+            </div>
+
+            <form class="addProblemForm" id="addProblemForm">
+                <label for="titleInput">Наименование:</label>
+                <input type="text" id="titleInput" required>
+
+                <label for="audienceInput">Аудитория:</label>
+                <input type="text" id="audienceInput" required>
+
+                <label for="descriptionInput">Описание:</label>
+                <textarea class="description" id="descriptionInput" required></textarea>
+
+                <label for="problemTypesSelect">Тип:</label>
+                <select id="problemTypesSelect">
+                    <option value="InternetIssue">Проблемы с интернетом</option>
+                    <option value="HardwareIssue">Проблемы с железом</option>
+                    <option value="SoftwareBug">Проблемы с ПО</option>
+                    <option value="Other">Другое</option>
+                </select>
+
+                <pre id="errorMessage" class="errorMessage"></pre>
+
+                <button class="sign-in-button" type="submit">Добавить</button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <p></p>
