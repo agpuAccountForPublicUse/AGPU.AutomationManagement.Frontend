@@ -2,7 +2,36 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
-document.addEventListener("DOMContentLoaded", appendFooterText);
+document.addEventListener("DOMContentLoaded", async () => {
+    await refreshTokensIfRequired();
+    appendFooterText();
+    document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
+});
+
+function onPageSizeChanged(location, getExtraParamsString = () => "") {
+    const selectedPageSize = document.getElementById("page-sizes-select").value;
+    let url = `${location}?pageIndex=1&pageSize=${selectedPageSize}`;
+
+    if (getExtraParamsString) {
+        url += getExtraParamsString();
+    }
+
+    window.location = url;
+    console.log(`${onPageSizeChanged.name} func\n Url: ${url}\nDelegate result: ${getExtraParamsString()}\n${getExtraParamsString()}`);
+}
+
+function updatePageSizesSelect(urlParams) {
+    let pageSize = urlParams.get("pageSize");
+    const pageIndex = urlParams.get("pageIndex") || 1;
+
+    const pageSizesSelect = document.getElementById("page-sizes-select");
+    const pageSizeExists = Array.from(pageSizesSelect.options).some(option => option.value === pageSize);
+
+    pageSizesSelect.value = pageSizeExists ? pageSize : pageSizesSelect.options[0].value;
+    pageSize = pageSizeExists ? pageSize : pageSizesSelect.options[0].value;
+
+    return { pageIndex, pageSize };
+}
 
 function appendFooterText() {
     const pTag = document.querySelector("footer").querySelector("p");
@@ -150,4 +179,82 @@ function showEmail(email) {
     emailElement.textContent = email;
 
     document.getElementById("user-info").style.display = "flex";
+}
+
+function updatePager(pageIndex, totalPages, hasNextPage, hasPreviousPage, location, getExtraParamsString = () => "") {
+    const rangeSize = 5; // 2 страницы до, 2 страницы после, и текущая страница
+    const halfRange = Math.floor(rangeSize / 2);
+
+    let startPage = Math.max(1, pageIndex - halfRange);
+    let endPage = Math.min(totalPages, pageIndex + halfRange);
+
+    if (pageIndex - startPage < halfRange) {
+        endPage = Math.min(totalPages, endPage + (halfRange - (pageIndex - startPage)));
+    }
+
+    if (endPage - pageIndex < halfRange) {
+        startPage = Math.max(1, startPage - (halfRange - (endPage - pageIndex)));
+    }
+
+    const pageNumbersContainer = document.querySelector(".page-numbers");
+    pageNumbersContainer.innerHTML = "";
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement("button");
+        pageButton.textContent = i;
+
+        if (i === pageIndex) {
+            pageButton.classList.add("active");
+        }
+
+        pageButton.addEventListener("click", () => {
+            const selectedPageSize = document.getElementById("page-sizes-select").value;
+
+            let url = `${location}?pageIndex=${i}&pageSize=${selectedPageSize}`;
+
+            if (getExtraParamsString) {
+                url += getExtraParamsString();
+            }
+
+            window.location = url;
+        });
+
+        pageNumbersContainer.appendChild(pageButton);
+    }
+
+    const previousButton = document.getElementById("previous-page");
+    const nextButton = document.getElementById("next-page");
+
+    previousButton.disabled = !hasPreviousPage;
+    nextButton.disabled = !hasNextPage;
+
+    previousButton.onclick = () => {
+        const selectedPageSize = document.getElementById("page-sizes-select").value;
+        let url = `${location}?pageIndex=${pageIndex - 1}&pageSize=${selectedPageSize}`;
+
+        if (getExtraParamsString) {
+            url += getExtraParamsString();
+        }
+
+        window.location = url;
+    };
+
+    nextButton.onclick = () => {
+        const selectedPageSize = document.getElementById("page-sizes-select").value;
+        let url = `${location}?pageIndex=${pageIndex + 1}&pageSize=${selectedPageSize}`;
+
+        if (getExtraParamsString) {
+            url += getExtraParamsString();
+        }
+
+        window.location = url;
+    };
+}
+
+function onOpenModalWindowButtonClicked(modalWindowId) {
+    document.getElementById(modalWindowId).style.display = "flex";
+}
+
+function onCloseModalWindowButtonClicked(modalWindowId) {
+    document.getElementById(modalWindowId).style.display = "none";
 }

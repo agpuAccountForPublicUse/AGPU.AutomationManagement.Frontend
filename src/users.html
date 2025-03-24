@@ -68,7 +68,7 @@
                         <option value="10">10</option>
                     </select>
                 </div>
-                <button class="new-entity-button" onclick="onAddUserButtonClicked()">+Новый пользователь</button>
+                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('addUserModal')">+Новый пользователь</button>
             </section>
             <section class="users-container">
                 <ul class="users-list" id="users-list">
@@ -87,7 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Новый пользователь</h2>
-                <span class="close-button" onclick="onCloseUserAddingModalClicked()">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('addUserModal')">&times;</span>
             </div>
 
             <form class="addUserForm" id="addUserForm">

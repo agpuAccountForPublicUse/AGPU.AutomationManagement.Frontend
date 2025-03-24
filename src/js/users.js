@@ -1,22 +1,13 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
-
     await refreshTokensIfRequired();
 
     const callbackUrl = encodeURIComponent(window.location.href);
     await isAuthenticated(callbackUrl);
 
     const urlParams = new URLSearchParams(window.location.search);
-    const pageIndex = urlParams.get("pageIndex") || 1;
-    let pageSize = urlParams.get("pageSize");
+    const res = updatePageSizesSelect(urlParams);
 
-    const pageSizesElement = document.getElementById("page-sizes-select");
-    const optionExists = Array.from(pageSizesElement.options).some(option => option.value === pageSize);
-
-    pageSizesElement.value = optionExists ? pageSize : pageSizesElement.options[0].value;
-    pageSize = optionExists ? pageSize : pageSizesElement.options[0].value;
-
-    await loadUsers(pageIndex, pageSize);
+    await loadUsers(res.pageIndex, res.pageSize);
     await loadRoles();
 
     document.getElementById("addUserForm").addEventListener("submit", async (e) => {
@@ -25,14 +16,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         await addUser();
     });
 
-    document.getElementById("page-sizes-select").addEventListener("change", onPageSizeChange);
+    document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("users.html"));
 });
-
-async function onPageSizeChange() {
-    const selectedPageSize = document.getElementById("page-sizes-select").value;
-
-    window.location = `users.html?pageIndex=1&pageSize=${selectedPageSize}`;
-}
 
 async function addUser() {
     await refreshTokensIfRequired();
@@ -69,6 +54,7 @@ async function addUser() {
 
         switch (response.status) {
             case 200: {
+                document.getElementById("addUserForm").reset();
                 window.location.reload();
                 return;
             }
@@ -159,84 +145,29 @@ async function loadUsers(pageIndex, pageSize) {
 
             usersPage.items.forEach(user => {
                 const li = document.createElement("li");
+                li.classList.add("user-item");
+
                 li.innerHTML = `
-            <span><u>${user.email}</u></span>
-            <div>ФИО: ${user.fullName}</div>
-            <div>Должность: ${user.post}</div>
-            <div>Логин: ${user.username}</div>
-             `;
+        <div class="user-card">
+            <h3><u>${user.email}</u></h3>
+            <p><strong>ФИО:</strong> ${user.fullName}</p>
+            <p><strong>Должность:</strong> ${user.post}</p>
+            <p><strong>Логин:</strong> ${user.username}</p>
+        </div>
+    `;
+
                 usersList.appendChild(li);
             });
 
-            updatePager(usersPage.pageIndex, usersPage.totalPagesCount, usersPage.hasNextPage, usersPage.hasPreviousPage);
-        }
-        else if (response.status === 401) {
+
+            updatePager(usersPage.pageIndex, usersPage.totalPagesCount, usersPage.hasNextPage, usersPage.hasPreviousPage, "users.html");
+        } else if (response.status === 401) {
             window.location = "sign-in.html";
-        }
-        else {
+        } else {
             console.log(response.status);
         }
 
     } catch (error) {
         console.error(error);
     }
-}
-
-function onAddUserButtonClicked() {
-    document.getElementById("addUserModal").style.display = "flex";
-}
-
-function onCloseUserAddingModalClicked(){
-    document.getElementById("addUserModal").style.display = "none";
-}
-
-function updatePager(pageIndex, totalPages, hasNextPage, hasPreviousPage) {
-
-    const rangeSize = 5; // 2 страницы до, 2 страницы после, и текущая страница
-    const halfRange = Math.floor(rangeSize / 2);
-
-    let startPage = Math.max(1, pageIndex - halfRange);
-    let endPage = Math.min(totalPages, pageIndex + halfRange);
-
-    if (pageIndex - startPage < halfRange) {
-        endPage = Math.min(totalPages, endPage + (halfRange - (pageIndex - startPage)));
-    }
-
-    if (endPage - pageIndex < halfRange) {
-        startPage = Math.max(1, startPage - (halfRange - (endPage - pageIndex)));
-    }
-
-    const pageNumbersContainer = document.querySelector(".page-numbers");
-    pageNumbersContainer.innerHTML = "";
-
-    for (let i = startPage; i <= endPage; i++) {
-        const pageButton = document.createElement("button");
-        pageButton.textContent = i;
-
-        if (i === pageIndex) {
-            pageButton.classList.add("active");
-        }
-
-        pageButton.addEventListener("click", () => {
-            const selectedPageSize = document.getElementById("page-sizes-select").value;
-            window.location = `users.html?pageIndex=${i}&pageSize=${selectedPageSize}`;
-        });
-
-        pageNumbersContainer.appendChild(pageButton);
-    }
-
-    const previousButton = document.getElementById("previous-page");
-    const nextButton = document.getElementById("next-page");
-
-    previousButton.disabled = !hasPreviousPage;
-    nextButton.disabled = !hasNextPage;
-
-    previousButton.onclick = () => {
-        const selectedPageSize = document.getElementById("page-sizes-select").value;
-        window.location = `users.html?pageIndex=${pageIndex - 1}&pageSize=${selectedPageSize}`;
-    };
-    nextButton.onclick = () => {
-        const selectedPageSize = document.getElementById("page-sizes-select").value;
-        window.location = `users.html?pageIndex=${pageIndex + 1}&pageSize=${selectedPageSize}`;
-    };
 }

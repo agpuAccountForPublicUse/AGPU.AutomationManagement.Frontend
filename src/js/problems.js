@@ -1,24 +1,34 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
-
     await refreshTokensIfRequired();
 
     const callbackUrl = encodeURIComponent(window.location.href);
     await isAuthenticated(callbackUrl);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const res = updatePageSizesSelect(urlParams);
+    const status = urlParams.get("status") || "All";
+    const statusesSelect = document.getElementById("problemStatuses");
+    const statusExists = Array.from(statusesSelect.options).some(option => option.value === status);
+
+    statusesSelect.value = statusExists ? status : statusesSelect.options[0].value;
+    console.log(`Loading page:\n Status select value: ${statusesSelect.value}`);
+
+    await loadProblems(res.pageIndex, res.pageSize, status);
 
     document.getElementById("addProblemForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         document.getElementById("errorMessage").style.display = "block";
         await addProblem();
     });
+
+    document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("problems.html", buildExtraParamsString));
+    document.getElementById("problemStatuses").addEventListener("change", onStatusChanged);
 });
 
-function onAddProblemButtonClicked() {
-    document.getElementById("addProblemModal").style.display = "flex";
-}
-
-function onCloseProblemAddingModalClicked(){
-    document.getElementById("addProblemModal").style.display = "none";
+function buildExtraParamsString(){
+    const status = document.getElementById("problemStatuses").value;
+    console.log(`${buildExtraParamsString.name} func: Extracted status: ${status}`);
+    return `&status=${status}`;
 }
 
 async function addProblem() {
@@ -52,6 +62,7 @@ async function addProblem() {
 
         switch (response.status) {
             case 200: {
+                document.getElementById("addProblemForm").reset();
                 window.location.reload();
                 return;
             }
@@ -78,4 +89,88 @@ async function addProblem() {
     catch (error) {
         console.error(error);
     }
+}
+
+async function loadProblems(pageIndex, pageSize, status) {
+    const accessToken = getAccessToken();
+
+    try {
+        let url = `${apiBaseUrl}/problems?pageIndex=${pageIndex}&pageSize=${pageSize}`;
+        if (status !== "All" && status !== null) {
+            url += `&status=${status}`;
+        }
+
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.ok) {
+            const problemsPage = await response.json();
+
+            const usersList = document.getElementById("problems-list");
+            usersList.innerHTML = "";
+
+            problemsPage.items.forEach(problem => {
+                const li = document.createElement("li");
+                li.classList.add("problem-item");
+
+                const statusColor = problem.status === 'Solved' ? 'green' :
+                    problem.status === 'InProgress' ? 'orange' :
+                        problem.status === 'Pending' ? 'gray' : 'red';
+
+                const formattedDate = new Intl.DateTimeFormat('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }).format(new Date(problem.creationDateTime));
+
+                // Заполняем HTML
+                li.innerHTML = `
+        <div class="problem-card">
+            <h3>
+                <span class="status-icon" style="background-color: ${statusColor};"></span>
+                ${problem.title}
+            </h3>
+            <hr>
+            <p><strong>📅 Дата создания:</strong> ${formattedDate}</p>
+            <p><strong>👤 Создатель:</strong> ${problem.creatorFullName}</p>
+            <p><strong>🏢 Аудитория:</strong> ${problem.audience}</p>
+        </div>
+    `;
+                usersList.appendChild(li);
+            });
+
+
+            updatePager(
+                problemsPage.pageIndex,
+                problemsPage.totalPagesCount,
+                problemsPage.hasNextPage,
+                problemsPage.hasPreviousPage,
+                "problems.html",
+                buildExtraParamsString);
+        }
+        else if (response.status === 401) {
+            window.location = "sign-in.html";
+        }
+        else {
+            console.log(response.status);
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function onStatusChanged() {
+    const selectedStatus = document.getElementById("problemStatuses").value;
+    const selectedPageSize = document.getElementById("page-sizes-select").value;
+    window.location = `problems.html?pageIndex=1&pageSize=${selectedPageSize}&status=${selectedStatus}`;
+    console.log(`${onStatusChanged.name} func:\n Selected status: ${selectedStatus}`);
 }

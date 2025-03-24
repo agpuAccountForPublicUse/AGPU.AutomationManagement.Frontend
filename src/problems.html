@@ -59,22 +59,35 @@
     </header>
 
     <main>
-        <div class="problems-container">
-            <div class="tools">
-                <section>
-                <select id="problemStatuses">
-                    <option value="All">Все</option>
-                    <option value="Pending">В процессе рассмотрения</option>
-                    <option value="InProgress">Выполняется</option>
-                    <option value="Completed">Выполнено</option>
-                </select>
-                </section>
 
-                <button class="new-entity-button" onclick="onAddProblemButtonClicked()">+Новая заявка</button>
-            </div>
-            <ul class="problems-list">
+        <div class="main-container">
+            <section class="tools">
+                <div>
+                    <label for="page-sizes-select">Размер страницы:</label>
+                    <select id="page-sizes-select" class="page-sizes">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                    </select>
+                    <select id="problemStatuses">
+                        <option value="All">Все</option>
+                        <option value="Pending">В процессе рассмотрения</option>
+                        <option value="InProgress">Выполняется</option>
+                        <option value="Solved">Выполнено</option>
+                    </select>
+                </div>
+                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('addProblemModal')">+Новая проблема</button>
+            </section>
+            <section class="users-container">
+                <ul class="problems-list" id="problems-list">
 
-            </ul>
+                </ul>
+            </section>
+            <section class="pager">
+                <button class="pager-button" id="previous-page">Previous</button>
+                <div class="page-numbers">
+                </div>
+                <button class="pager-button" id="next-page">Next</button>
+            </section>
         </div>
     </main>
 
@@ -82,7 +95,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Новая проблема</h2>
-                <span class="close-button" onclick="onCloseProblemAddingModalClicked()">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('addProblemModal')">&times;</span>
             </div>
 
             <form class="addProblemForm" id="addProblemForm">

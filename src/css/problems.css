@@ -1,8 +1,14 @@
 @import "reset.css";
 @import "shared.css";
 
-main{
-    min-width: 100vh;
+.main-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    width: 100%;
+    padding-left: 350px;
+    padding-right: 350px;
+    gap: 10px;
 }
 
 .problems-container{
@@ -108,4 +114,52 @@ main{
     display: none;
     color: red;
     font-size: 16px;
+}
+
+.problems-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.problem-item {
+    list-style: none;
+    cursor: pointer;
+}
+
+.problem-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.problem-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.problem-card h3 {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.status-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.problem-card p {
+    margin: 5px 0;
+    color: #444;
+    font-size: 0.95em;
 }
