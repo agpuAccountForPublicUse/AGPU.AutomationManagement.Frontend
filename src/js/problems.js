@@ -34,8 +34,6 @@ function buildExtraParamsString(){
 async function addProblem() {
     await refreshTokensIfRequired();
 
-    const accessToken = getAccessToken();
-
     const title = document.getElementById("titleInput").value.trim();
     const description = document.getElementById("descriptionInput").value.trim();
     const selectedType = document.getElementById("problemTypesSelect").value;
@@ -53,7 +51,7 @@ async function addProblem() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             },
             body: body
         });
@@ -149,7 +147,7 @@ async function loadProblems(pageIndex, pageSize, status) {
             window.location = "sign-in.html";
         }
         else {
-            console.log(response.status);
+            console.log(response);
         }
 
     } catch (error) {

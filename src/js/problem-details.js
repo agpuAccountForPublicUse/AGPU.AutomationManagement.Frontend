@@ -22,20 +22,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function onSubmitContractorAttaching(){
     await refreshTokensIfRequired();
 
-    const accessToken = getAccessToken();
-
     try {
         const response = await fetch(`${apiBaseUrl}/problems/${problem?.id}/attach-contractor`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             },
             body: JSON.stringify({ contractorId: document.getElementById("contractors-select").value }),
         });
 
         if (response.ok) {
             window.location.reload();
+        }
+        else {
+            console.log(response);
         }
     }
     catch (e) {
@@ -46,14 +47,12 @@ async function onSubmitContractorAttaching(){
 async function loadProblem(problemId) {
     await refreshTokensIfRequired();
 
-    const accessToken = getAccessToken();
-
     try {
         const response = await fetch(`${apiBaseUrl}/problems/${problemId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             },
         });
 
@@ -61,10 +60,10 @@ async function loadProblem(problemId) {
             const json = await response.json();
             problem = json;
             await renderProblemDetails(json);
-            return;
         }
-
-        return [];
+        else {
+            console.log(response);
+        }
     }
     catch (error) {
         console.error("Ошибка:", error);
@@ -125,13 +124,12 @@ async function renderProblemDetails(problem) {
 async function onOpenAttachContractorModalWindow() {
     await refreshTokensIfRequired();
 
-    const accessToken = getAccessToken();
     try {
         const response = await fetch(`${apiBaseUrl}/users/contractors`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 
@@ -154,6 +152,9 @@ async function onOpenAttachContractorModalWindow() {
             }
 
             onOpenModalWindowButtonClicked('attach-contractor-modal');
+        }
+        else {
+            console.log(response);
         }
     }
     catch (error) {

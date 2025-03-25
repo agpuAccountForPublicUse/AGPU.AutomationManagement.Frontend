@@ -8,6 +8,12 @@ const statusesMap = {
     "Pending": { color: "gray", ru: "В процессе рассмотрения", icon: "🕒" },
 };
 
+document.addEventListener("DOMContentLoaded", async () => {
+    await refreshTokensIfRequired();
+    appendFooterText();
+    document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
+});
+
 function formatDateTime(dateTime) {
     if (!dateTime) {
         return "";
@@ -22,12 +28,6 @@ function formatDateTime(dateTime) {
         second: '2-digit'
     }).format(new Date(dateTime));
 }
-
-document.addEventListener("DOMContentLoaded", async () => {
-    await refreshTokensIfRequired();
-    appendFooterText();
-    document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
-});
 
 function onPageSizeChanged(location, getExtraParamsString = () => "") {
     const selectedPageSize = document.getElementById("page-sizes-select").value;
@@ -102,7 +102,6 @@ async function refreshTokensIfRequired() {
 }
 
 function isTokenAboutToExpire(tokenExpirationDatetime) {
-
     const currentUnixEpoch = Math.floor(Date.now() / 1000);
     const timeDifference = tokenExpirationDatetime - currentUnixEpoch;
 
@@ -172,13 +171,11 @@ function onLogoutButtonClicked() {
 
 async function isAuthenticated(callbackUrl = null){
     try {
-        const accessToken = getAccessToken();
-
         const response = await fetch(`${apiBaseUrl}/users/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 

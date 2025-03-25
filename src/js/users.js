@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function addUser() {
     await refreshTokensIfRequired();
 
-    const accessToken = getAccessToken();
-
     const fullName = document.getElementById("fullNameInput").value.trim();
     const email = document.getElementById("emailInput").value.trim();
     const selectedRole = document.getElementById("rolesSelect").value;
@@ -45,7 +43,7 @@ async function addUser() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             },
             body: body
         });
@@ -84,14 +82,12 @@ async function addUser() {
 }
 
 async function loadRoles() {
-    const accessToken = getAccessToken();
-
     try {
         const response = await fetch(`${apiBaseUrl}/roles`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 
@@ -126,14 +122,12 @@ async function loadRoles() {
 }
 
 async function loadUsers(pageIndex, pageSize) {
-    const accessToken = getAccessToken();
-
     try {
         const response = await fetch(`${apiBaseUrl}/users?pageIndex=${pageIndex}&pageSize=${pageSize}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 

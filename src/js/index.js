@@ -12,13 +12,11 @@ function onSignInButtonClicked() {
 
 async function isAuthenticatedIndex() {
     try {
-        const accessToken = getAccessToken();
-
         const response = await fetch(`${apiBaseUrl}/users/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 
