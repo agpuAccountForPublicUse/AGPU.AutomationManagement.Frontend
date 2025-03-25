@@ -118,22 +118,12 @@ async function loadProblems(pageIndex, pageSize, status) {
                 const li = document.createElement("li");
                 li.classList.add("problem-item");
 
-                const statusColor = problem.status === 'Solved' ? 'green' :
-                    problem.status === 'InProgress' ? 'orange' :
-                        problem.status === 'Pending' ? 'gray' : 'red';
+                const statusColor = statusesMap[problem.status].color;
 
-                const formattedDate = new Intl.DateTimeFormat('ru-RU', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                }).format(new Date(problem.creationDateTime));
+                const formattedDate = formatDateTime(problem.creationDateTime);
 
-                // Заполняем HTML
                 li.innerHTML = `
-        <div class="problem-card">
+        <div class="problem-card" onclick="onProblemClicked('${problem.id}')">
             <h3>
                 <span class="status-icon" style="background-color: ${statusColor};"></span>
                 ${problem.title}
@@ -146,7 +136,6 @@ async function loadProblems(pageIndex, pageSize, status) {
     `;
                 usersList.appendChild(li);
             });
-
 
             updatePager(
                 problemsPage.pageIndex,
@@ -166,6 +155,11 @@ async function loadProblems(pageIndex, pageSize, status) {
     } catch (error) {
         console.error(error);
     }
+}
+
+function onProblemClicked(problemId) {
+    console.log(problemId);
+    window.location = "problem-details.html?problemId=" + problemId;
 }
 
 function onStatusChanged() {

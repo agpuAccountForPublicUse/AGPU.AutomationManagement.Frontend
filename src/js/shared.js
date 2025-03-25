@@ -2,6 +2,27 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
+const statusesMap = {
+    "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
+    "InProgress": { color: "orange", ru: "В процессе выполнения", icon: "⏳" },
+    "Pending": { color: "gray", ru: "В процессе рассмотрения", icon: "🕒" },
+};
+
+function formatDateTime(dateTime) {
+    if (!dateTime) {
+        return "";
+    }
+
+    return new Intl.DateTimeFormat('ru-RU', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }).format(new Date(dateTime));
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     await refreshTokensIfRequired();
     appendFooterText();

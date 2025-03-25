@@ -1,0 +1,138 @@
+@import "reset.css";
+@import "shared.css";
+
+.status-badge {
+    padding: 8px;
+    align-self: flex-start;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.separator {
+    height:2px;
+    border-width:0;
+    background-color:gray
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    width: 100%;
+    padding-left: 350px;
+    padding-right: 350px;
+    gap: 15px;
+}
+
+.description-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    flex: 1;
+}
+
+.meta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tools-container{
+    display: flex;
+    gap: 5px;
+}
+
+.tools-container button{
+    padding: 5px;
+    background: #1e6883;
+    color: white;
+    font-size: 16px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+
+
+
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    display: flex;
+    padding: 10px 20px 15px 20px;
+    flex-direction: column;
+    min-height: auto;
+    min-width: 450px;
+    background-color: #1e6883;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.close-button {
+    color: red;
+    font-weight: bold;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+}
+
+.attach-contractor-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.attach-contractor-form label {
+    font-weight: 550;
+    font-size: 18px;
+}
+
+.attach-contractor-form input, .description {
+    font-weight: 550;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.attach-contractor-form select{
+    font-weight: 550;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 5px;
+}
