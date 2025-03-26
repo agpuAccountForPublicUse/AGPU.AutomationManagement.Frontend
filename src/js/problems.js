@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const res = updatePageSizesSelect(urlParams);
     const status = urlParams.get("status") || "All";
-    const statusesSelect = document.getElementById("problemStatuses");
+    const statusesSelect = document.getElementById("problem-statuses");
     const statusExists = Array.from(statusesSelect.options).some(option => option.value === status);
 
     statusesSelect.value = statusExists ? status : statusesSelect.options[0].value;
@@ -15,18 +15,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadProblems(res.pageIndex, res.pageSize, status);
 
-    document.getElementById("addProblemForm").addEventListener("submit", async (e) => {
+    document.getElementById("add-problem-form").addEventListener("submit", async (e) => {
         e.preventDefault();
         document.getElementById("errors").style.display = "block";
         await addProblem();
     });
 
     document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("problems.html", buildExtraParamsString));
-    document.getElementById("problemStatuses").addEventListener("change", onStatusChanged);
+    document.getElementById("problem-statuses").addEventListener("change", onStatusChanged);
 });
 
 function buildExtraParamsString(){
-    const status = document.getElementById("problemStatuses").value;
+    const status = document.getElementById("problem-statuses").value;
     console.log(`${buildExtraParamsString.name} func: Extracted status: ${status}`);
     return `&status=${status}`;
 }
@@ -34,10 +34,10 @@ function buildExtraParamsString(){
 async function addProblem() {
     await refreshTokensIfRequired();
 
-    const title = document.getElementById("titleInput").value.trim();
-    const description = document.getElementById("descriptionInput").value.trim();
-    const selectedType = document.getElementById("problemTypesSelect").value;
-    const audience = document.getElementById("audienceInput").value.trim();
+    const title = document.getElementById("title-input").value.trim();
+    const description = document.getElementById("description-input").value.trim();
+    const selectedType = document.getElementById("problem-types-select").value;
+    const audience = document.getElementById("audience-input").value.trim();
 
     try {
         const body = JSON.stringify({
@@ -56,15 +56,14 @@ async function addProblem() {
             body: body
         });
 
-        const responseData = await response.json();
-
         switch (response.status) {
             case 200: {
-                document.getElementById("addProblemForm").reset();
+                document.getElementById("add-problem-form").reset();
                 window.location.reload();
                 return;
             }
             case 400: {
+                const responseData = await response.json();
                 const errors = Object.values(responseData.errors)
                     .flat()
                     .join('\n');
@@ -90,8 +89,6 @@ async function addProblem() {
 }
 
 async function loadProblems(pageIndex, pageSize, status) {
-    const accessToken = getAccessToken();
-
     try {
         let url = `${apiBaseUrl}/problems?pageIndex=${pageIndex}&pageSize=${pageSize}`;
         if (status !== "All" && status !== null) {
@@ -102,7 +99,7 @@ async function loadProblems(pageIndex, pageSize, status) {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${getAccessToken()}`
             }
         });
 
@@ -161,7 +158,7 @@ function onProblemClicked(problemId) {
 }
 
 function onStatusChanged() {
-    const selectedStatus = document.getElementById("problemStatuses").value;
+    const selectedStatus = document.getElementById("problem-statuses").value;
     const selectedPageSize = document.getElementById("page-sizes-select").value;
     window.location = `problems.html?pageIndex=1&pageSize=${selectedPageSize}&status=${selectedStatus}`;
     console.log(`${onStatusChanged.name} func:\n Selected status: ${selectedStatus}`);

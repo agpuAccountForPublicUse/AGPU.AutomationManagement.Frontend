@@ -51,27 +51,25 @@
     </header>
 
     <main>
-
         <div class="main-container">
-            <section class="tools">
+            <section class="tools-container">
                 <div>
                     <label for="page-sizes-select">Размер страницы:</label>
-                    <select id="page-sizes-select" class="page-sizes">
+                    <select id="page-sizes-select" class="page-sizes tools-select">
                         <option value="5">5</option>
                         <option value="10">10</option>
                     </select>
-                    <select id="problemStatuses">
+                    <select id="problem-statuses" class="tools-select">
                         <option value="All">Все</option>
                         <option value="Pending">В процессе рассмотрения</option>
                         <option value="InProgress">Выполняется</option>
                         <option value="Solved">Выполнено</option>
                     </select>
                 </div>
-                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('addProblemModal')">+Новая проблема</button>
+                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('add-problem-window')">+Новая проблема</button>
             </section>
             <section class="users-container">
                 <ul class="problems-list" id="problems-list">
-
                 </ul>
             </section>
             <section class="pager">
@@ -83,32 +81,32 @@
         </div>
     </main>
 
-    <div id="addProblemModal" class="modal">
+    <div id="add-problem-window" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Новая проблема</h2>
-                <span class="close-button" onclick="onCloseModalWindowButtonClicked('addProblemModal')">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('add-problem-window')">&times;</span>
             </div>
 
-            <form class="addProblemForm" id="addProblemForm">
-                <label for="titleInput">Наименование:</label>
-                <input type="text" id="titleInput" required>
+            <form class="add-problem-form" id="add-problem-form">
+                <label for="title-input">Наименование:</label>
+                <input type="text" id="title-input" required>
 
-                <label for="audienceInput">Аудитория:</label>
-                <input type="text" id="audienceInput" required>
+                <label for="audience-input">Аудитория:</label>
+                <input type="text" id="audience-input" required>
 
-                <label for="descriptionInput">Описание:</label>
-                <textarea class="description" id="descriptionInput" required></textarea>
+                <label for="description-input">Описание:</label>
+                <textarea class="description" id="description-input" required></textarea>
 
-                <label for="problemTypesSelect">Тип:</label>
-                <select id="problemTypesSelect">
+                <label for="problem-types-select">Тип:</label>
+                <select id="problem-types-select">
                     <option value="InternetIssue">Проблемы с интернетом</option>
                     <option value="HardwareIssue">Проблемы с железом</option>
                     <option value="SoftwareBug">Проблемы с ПО</option>
                     <option value="Other">Другое</option>
                 </select>
 
-                <pre id="errors" class="errors"></pre>
+                <pre id="errors" class="error-message"></pre>
 
                 <button class="confirm-button" type="submit">Добавить</button>
             </form>
