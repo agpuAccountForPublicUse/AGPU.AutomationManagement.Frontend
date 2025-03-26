@@ -55,12 +55,12 @@
             <section class="tools-container">
                 <div>
                     <label for="page-sizes-select">Размер страницы:</label>
-                    <select id="page-sizes-select" class="page-sizes">
+                    <select id="page-sizes-select" class="page-sizes tools-select">
                         <option value="5">5</option>
                         <option value="10">10</option>
                     </select>
                 </div>
-                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('addUserModal')">+Новый пользователь</button>
+                <button class="new-entity-button" onclick="onOpenModalWindowButtonClicked('add-user-window')">+Новый пользователь</button>
             </section>
             <section class="users-container">
                 <ul class="users-list" id="users-list">
@@ -75,34 +75,34 @@
         </div>
     </main>
 
-    <div id="addUserModal" class="modal">
+    <div id="add-user-window" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Новый пользователь</h2>
-                <span class="close-button" onclick="onCloseModalWindowButtonClicked('addUserModal')">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('add-user-window')">&times;</span>
             </div>
 
-            <form class="addUserForm" id="addUserForm">
-                <label for="fullNameInput">ФИО:</label>
-                <input type="text" id="fullNameInput" required>
+            <form class="add-user-form" id="add-user-form">
+                <label for="fullName-input">ФИО:</label>
+                <input type="text" id="fullName-input" required>
 
-                <label for="usernameInput">Логин:</label>
-                <input type="text" id="usernameInput" required>
+                <label for="username-input">Логин:</label>
+                <input type="text" id="username-input" required>
 
-                <label for="emailInput">Эл. почта:</label>
-                <input type="email" id="emailInput" required>
+                <label for="email-input">Эл. почта:</label>
+                <input type="email" id="email-input" required>
 
-                <label for="postInput">Должность:</label>
-                <input type="text" id="postInput" required>
+                <label for="post-input">Должность:</label>
+                <input type="text" id="post-input" required>
 
                 <label for="password-input">Пароль:</label>
                 <input type="text" id="password-input" required>
 
-                <label for="rolesSelect">Роль:</label>
-                <select id="rolesSelect">
+                <label for="roles-select">Роль:</label>
+                <select id="roles-select">
                 </select>
 
-                <pre id="errorMessage" class="errorMessage"></pre>
+                <pre id="errors" class="error-message"></pre>
 
                 <button class="confirm-button" type="submit">Добавить</button>
             </form>

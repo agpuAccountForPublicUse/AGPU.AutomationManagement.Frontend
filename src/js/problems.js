@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById("addProblemForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-        document.getElementById("errorMessage").style.display = "block";
+        document.getElementById("errors").style.display = "block";
         await addProblem();
     });
 
@@ -65,13 +65,13 @@ async function addProblem() {
                 return;
             }
             case 400: {
-                const errorMessage = Object.values(responseData.errors)
+                const errors = Object.values(responseData.errors)
                     .flat()
                     .join('\n');
 
-                const errorMessageElement = document.getElementById("errorMessage");
-                errorMessageElement.textContent = errorMessage;
-                errorMessageElement.style.display = "block";
+                const errorsElement = document.getElementById("errors");
+                errorsElement.textContent = errors;
+                errorsElement.style.display = "block";
                 return;
             }
             case 401: {

@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadUsers(res.pageIndex, res.pageSize);
     await loadRoles();
 
-    document.getElementById("addUserForm").addEventListener("submit", async (e) => {
+    document.getElementById("add-user-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        document.getElementById("errorMessage").style.display = "block";
+        document.getElementById("errors").style.display = "block";
         await addUser();
     });
 
@@ -22,12 +22,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function addUser() {
     await refreshTokensIfRequired();
 
-    const fullName = document.getElementById("fullNameInput").value.trim();
-    const email = document.getElementById("emailInput").value.trim();
-    const selectedRole = document.getElementById("rolesSelect").value;
-    const username = document.getElementById("usernameInput").value.trim();
+    const fullName = document.getElementById("fullName-input").value.trim();
+    const email = document.getElementById("email-input").value.trim();
+    const selectedRole = document.getElementById("roles-select").value;
+    const username = document.getElementById("username-input").value.trim();
     const password = document.getElementById("password-input").value.trim();
-    const post = document.getElementById("postInput").value.trim();
+    const post = document.getElementById("post-input").value.trim();
 
     try {
         const body = JSON.stringify({
@@ -48,22 +48,21 @@ async function addUser() {
             body: body
         });
 
-        const responseData = await response.json();
-
         switch (response.status) {
             case 200: {
-                document.getElementById("addUserForm").reset();
+                document.getElementById("add-user-form").reset();
                 window.location.reload();
                 return;
             }
             case 400: {
-                const errorMessage = Object.values(responseData.errors)
+                const responseData = await response.json();
+                const errors = Object.values(responseData.errors)
                     .flat()
                     .join('\n');
 
-                const errorMessageElement = document.getElementById("errorMessage");
-                errorMessageElement.textContent = errorMessage;
-                errorMessageElement.style.display = "block";
+                const errorsElement = document.getElementById("errors");
+                errorsElement.textContent = errors;
+                errorsElement.style.display = "block";
                 return;
             }
             case 401: {
@@ -91,11 +90,10 @@ async function loadRoles() {
             }
         });
 
-        const responseData = await response.json();
-
         switch (response.status) {
             case 200: {
-                const rolesSelect = document.getElementById("rolesSelect");
+                const responseData = await response.json();
+                const rolesSelect = document.getElementById("roles-select");
 
                 responseData.forEach((item) => {
                     const option = document.createElement("option");
@@ -149,7 +147,6 @@ async function loadUsers(pageIndex, pageSize) {
             <p><strong>Логин:</strong> ${user.username}</p>
         </div>
     `;
-
                 usersList.appendChild(li);
             });
 

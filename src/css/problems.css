@@ -110,7 +110,7 @@
     overflow-y: auto;
 }
 
-.errorMessage{
+.errors{
     display: none;
     color: red;
     font-size: 16px;

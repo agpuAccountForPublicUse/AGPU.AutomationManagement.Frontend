@@ -47,13 +47,13 @@ async function signIn(callbackUrl = null) {
             window.location = callbackUrl;
         }
         else if (response.status === 400) {
-            const errorMessage = Object.values(responseData.errors)
+            const errors = Object.values(responseData.errors)
                 .flat()
                 .join('\n');
 
-            const errors = document.getElementById("errors");
-            errors.textContent = errorMessage;
-            errors.style.display = "block";
+            const errorsElement = document.getElementById("errors");
+            errorsElement.textContent = errors;
+            errorsElement.style.display = "block";
         }
         else {
             console.log(await response.text());
