@@ -26,7 +26,7 @@ async function addUser() {
     const email = document.getElementById("emailInput").value.trim();
     const selectedRole = document.getElementById("rolesSelect").value;
     const username = document.getElementById("usernameInput").value.trim();
-    const password = document.getElementById("passwordInput").value.trim();
+    const password = document.getElementById("password-input").value.trim();
     const post = document.getElementById("postInput").value.trim();
 
     try {

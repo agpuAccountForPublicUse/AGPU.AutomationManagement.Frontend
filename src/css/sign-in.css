@@ -7,7 +7,7 @@ main {
     align-items: center;
 }
 
-.sign-in-form-container {
+.content-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,8 +22,7 @@ main {
     backdrop-filter: blur(5px);
 }
 
-
-.sign-in-form-container h1 {
+.content-container h1 {
     color: #1e6883;
     font-size: 26px;
     font-weight: 600;
@@ -42,7 +41,7 @@ main {
     border-radius: 4px;
 }
 
-.showPassword-container{
+.show-password{
     display: flex;
     gap: 5px;
     input {
@@ -63,12 +62,6 @@ main {
 
 .sign-in-form button:hover {
     background-color: #15505f;
-}
-
-.signInErrorMessage{
-    display: none;
-    color: red;
-    font-size: 16px;
 }
 
 footer {

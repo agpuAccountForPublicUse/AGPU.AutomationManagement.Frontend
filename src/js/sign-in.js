@@ -1,6 +1,6 @@
 document.getElementById("sign-in-form").addEventListener("submit", async function (e) {
     e.preventDefault();
-    document.getElementById("signInErrorMessage").style.display = "none";
+    document.getElementById("errors").style.display = "none";
 
     const urlParams = new URLSearchParams(window.location.search);
     const callbackUrl = urlParams.get("callbackUrl");
@@ -9,14 +9,14 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
 });
 
 function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('passwordInput');
-    const showPasswordCheckbox = document.getElementById('showPasswordCheckbox');
+    const passwordInput = document.getElementById('password-input');
+    const showPasswordCheckbox = document.getElementById('show-password-checkbox');
     passwordInput.type = showPasswordCheckbox.checked ? "text" : "password";
 }
 
 async function signIn(callbackUrl = null) {
-    const emailOrUsername = document.getElementById("emailOrUsernameInput").value;
-    const password = document.getElementById("passwordInput").value;
+    const emailOrUsername = document.getElementById("email-or-username-input").value;
+    const password = document.getElementById("password-input").value;
 
     const body = JSON.stringify({ emailOrUsername, password });
 
@@ -51,9 +51,9 @@ async function signIn(callbackUrl = null) {
                 .flat()
                 .join('\n');
 
-            const signInErrorMessageElement = document.getElementById("signInErrorMessage");
-            signInErrorMessageElement.textContent = errorMessage;
-            signInErrorMessageElement.style.display = "block";
+            const errors = document.getElementById("errors");
+            errors.textContent = errorMessage;
+            errors.style.display = "block";
         }
         else {
             console.log(await response.text());
