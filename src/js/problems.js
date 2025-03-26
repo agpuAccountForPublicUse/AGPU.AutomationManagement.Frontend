@@ -79,7 +79,7 @@ async function addProblem() {
                 return;
             }
             default:{
-                console.log(response.status);
+                console.log(await response.text());
                 return;
             }
         }
@@ -147,7 +147,7 @@ async function loadProblems(pageIndex, pageSize, status) {
             window.location = "sign-in.html";
         }
         else {
-            console.log(response);
+            console.log(await response.text());
         }
 
     } catch (error) {

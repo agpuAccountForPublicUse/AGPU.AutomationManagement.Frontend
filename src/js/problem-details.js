@@ -15,11 +15,56 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById("attach-contractor-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        await onSubmitContractorAttaching();
+        await attachContractor();
+    });
+
+    document.getElementById("mark-solved-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await markSolved();
     });
 });
 
-async function onSubmitContractorAttaching(){
+async function markSolved() {
+    await refreshTokensIfRequired();
+
+    try {
+        // TODO: Решить проблему с отобржаением или передачей даты и времени.
+
+        const solvingTime = document.getElementById("time-input").value;
+        const solvingDate = document.getElementById("date-input").value;
+
+        const dateObj = new Date(`${solvingDate}T${solvingTime}Z`);
+
+        const formattedUTCDate = dateObj.toISOString().split("T")[0].split("-").reverse().join(".");
+        const formattedUTCTime = dateObj.toISOString().split("T")[1].slice(0, 5);
+
+        console.log(formattedUTCDate + " " + formattedUTCTime);
+
+        const response = await fetch(`${apiBaseUrl}/problems/${problem?.id}/mark-solved`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${getAccessToken()}`,
+            },
+            body: JSON.stringify({
+                solvingDate: formattedUTCDate,
+                solvingTime: formattedUTCTime,
+            }),
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        }
+        else {
+            console.log(await response.text());
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function attachContractor(){
     await refreshTokensIfRequired();
 
     try {
@@ -36,7 +81,7 @@ async function onSubmitContractorAttaching(){
             window.location.reload();
         }
         else {
-            console.log(response);
+            console.log(await response.text());
         }
     }
     catch (e) {
@@ -62,15 +107,15 @@ async function loadProblem(problemId) {
             await renderProblemDetails(json);
         }
         else {
-            console.log(response);
+            console.log(await response.text());
         }
     }
     catch (error) {
-        console.error("Ошибка:", error);
+        console.error(error);
     }
 }
 
-async function renderProblemDetails(problem) {
+function renderProblemDetails(problem) {
     const container = document.querySelector(".main-container");
     const statusInfo = statusesMap[problem.status];
 
@@ -113,7 +158,7 @@ async function renderProblemDetails(problem) {
 </div>
 <div class="tools-container">
     <button onclick="onOpenAttachContractorModalWindow()">Назначить исполнителя</button>
-    <button>Завершить</button>
+    <button onclick="onOpenModalWindowButtonClicked('mark-solved-modal')">Завершить</button>
     <button>Добавить комментарий</button>
 </div>
     `;
@@ -154,7 +199,7 @@ async function onOpenAttachContractorModalWindow() {
             onOpenModalWindowButtonClicked('attach-contractor-modal');
         }
         else {
-            console.log(response);
+            console.log(await response.text());
         }
     }
     catch (error) {

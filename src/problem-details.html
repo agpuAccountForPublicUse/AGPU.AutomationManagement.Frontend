@@ -80,6 +80,24 @@
         </div>
     </div>
 
+    <div class="modal" id="mark-solved-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Отметить выполненной</h2>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('mark-solved-modal')">&times;</span>
+            </div>
+
+            <form id="mark-solved-form" class="attach-contractor-form">
+                <label for="date-input">Дата выполнения:</label>
+                <input required type="date" id="date-input">
+
+                <label for="time-input">Время выполнения:</label>
+                <input required type="time" id="time-input">
+                <button class="sign-in-button" type="submit">Подтвердить</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p></p>
     </footer>

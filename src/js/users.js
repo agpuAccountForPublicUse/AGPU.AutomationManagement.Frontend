@@ -71,7 +71,7 @@ async function addUser() {
                 return;
             }
             default:{
-                console.log(response.status);
+                console.log(await response.text());
                 return;
             }
         }
@@ -112,7 +112,7 @@ async function loadRoles() {
                 return;
             }
             default:{
-                console.log(response.status);
+                console.log(await response.text());
             }
         }
     }
@@ -158,7 +158,7 @@ async function loadUsers(pageIndex, pageSize) {
         } else if (response.status === 401) {
             window.location = "sign-in.html";
         } else {
-            console.log(response.status);
+            console.log(await response.text());
         }
 
     } catch (error) {

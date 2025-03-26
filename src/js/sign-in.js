@@ -56,7 +56,7 @@ async function signIn(callbackUrl = null) {
             signInErrorMessageElement.style.display = "block";
         }
         else {
-            console.log(response.status);
+            console.log(await response.text());
         }
     }
     catch (error) {

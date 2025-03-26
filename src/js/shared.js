@@ -5,7 +5,7 @@ const refreshTokenKey = "refreshToken";
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
     "InProgress": { color: "orange", ru: "В процессе выполнения", icon: "⏳" },
-    "Pending": { color: "gray", ru: "В процессе рассмотрения", icon: "🕒" },
+    "Pending": { color: "red", ru: "В процессе рассмотрения", icon: "🕒" },
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -93,7 +93,7 @@ async function refreshTokensIfRequired() {
             console.log("Tokens updated.");
         }
         else {
-            console.log(response.status);
+            console.log(await response.text());
         }
     }
     catch (error) {
