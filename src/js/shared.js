@@ -181,7 +181,7 @@ async function isAuthenticated(callbackUrl = null){
 
         if (response.ok) {
             const currentUser = await response.json();
-            document.getElementById("navigationPanel").style.visibility = "visible";
+            document.getElementById("navigation-panel").style.visibility = "visible";
             showEmail(currentUser.email);
         } else {
             window.location = `sign-in.html?callbackUrl=${callbackUrl}`;

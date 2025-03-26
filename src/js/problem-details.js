@@ -22,7 +22,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         await markSolved();
     });
+
+    document.getElementById("add-comment-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await addComment();
+    });
+
+    const ratingValue = document.getElementById("rating-value");
+    const stars = document.querySelector(".stars").querySelectorAll(".fa");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function() {
+            const rating = parseInt(this.getAttribute("data-value"));
+            ratingValue.textContent = rating;
+
+            stars.forEach(s => s.classList.remove("checked"));
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add("checked");
+            }
+        });
+    });
 });
+
+async function addComment(comment) {
+    await refreshTokensIfRequired();
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/problems/${problem?.id}/assign-solving-score`, {
+           method: "PATCH",
+           headers: {
+               "content-type": "application/json",
+               "Authorization" : `Bearer ${getAccessToken()}`
+           },
+            body: JSON.stringify({
+                value: parseInt(document.getElementById("rating-value").textContent),
+                description: document.getElementById("comment-input").value
+            })
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        }
+        else {
+            console.log(await response.text());
+        }
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
 
 async function markSolved() {
     await refreshTokensIfRequired();
@@ -156,10 +204,12 @@ function renderProblemDetails(problem) {
 <div>
     <p style="font-weight: 600">${problem.solvingDateTime === null ? "" : "Выполнено:"} ${formatDateTime(problem.solvingDateTime)}</p>
 </div>
+<p>${problem.solvingScoreValue}</p>
+<textarea required style="resize: none">${problem.solvingScoreDescription}</textarea>
 <div class="tools-container">
     <button onclick="onOpenAttachContractorModalWindow()">Назначить исполнителя</button>
     <button onclick="onOpenModalWindowButtonClicked('mark-solved-modal')">Завершить</button>
-    <button>Добавить комментарий</button>
+    <button onclick="onOpenModalWindowButtonClicked('add-comment-modal')">Добавить комментарий</button>
 </div>
     `;
 

@@ -37,7 +37,7 @@ header {
     color: black;
 }
 
-.sign-in-button {
+.confirm-button {
     padding: 10px 20px;
     font-size: 20px;
     border-radius: 10px;
@@ -46,7 +46,7 @@ header {
     font-weight: 600;
 }
 
-.sign-in-button:hover {
+.confirm-button:hover {
     color: white;
     background-color: black;
 }

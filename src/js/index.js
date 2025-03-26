@@ -22,7 +22,7 @@ async function isAuthenticatedIndex() {
 
         if (response.ok) {
             const currentUser = await response.json();
-            document.getElementById("navigationPanel").style.visibility = "visible";
+            document.getElementById("navigation-panel").style.visibility = "visible";
             showEmailIndex(currentUser.email);
         } else {
             showSignInButton();

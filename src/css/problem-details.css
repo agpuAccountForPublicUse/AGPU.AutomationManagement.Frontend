@@ -136,3 +136,17 @@
     border-radius: 5px;
     padding: 5px;
 }
+
+.rating-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating-container span{
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.checked{
+    color: orange;
+}
