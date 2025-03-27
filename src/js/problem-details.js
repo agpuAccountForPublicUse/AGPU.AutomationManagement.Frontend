@@ -76,15 +76,16 @@ async function markSolved() {
     await refreshTokensIfRequired();
 
     try {
-        // TODO: Решить проблему с отобржаением или передачей даты и времени.
+        const solvingTime = document.getElementById("solving-time-input").value; // формат "HH:MM"
+        const solvingDate = document.getElementById("solving-date-input").value; // формат "YYYY-MM-DD"
 
-        const solvingTime = document.getElementById("solving-time-input").value;
-        const solvingDate = document.getElementById("solving-date-input").value;
+        const [year, month, day] = solvingDate.split("-").map(Number);
+        const [hours, minutes] = solvingTime.split(":").map(Number);
 
-        const dateObj = new Date(`${solvingDate}T${solvingTime}Z`);
+        const utcDate = new Date(year, month, day, hours, minutes);
 
-        const formattedUTCDate = dateObj.toISOString().split("T")[0].split("-").reverse().join(".");
-        const formattedUTCTime = dateObj.toISOString().split("T")[1].slice(0, 5);
+        const formattedUTCDate = `${String(utcDate.getUTCDate()).padStart(2, "0")}.${String(utcDate.getUTCMonth() + 1).padStart(2, "0")}.${utcDate.getUTCFullYear()}`;
+        const formattedUTCTime = `${String(utcDate.getUTCHours()).padStart(2, "0")}:${String(utcDate.getUTCMinutes()).padStart(2, "0")}`;
 
         console.log(formattedUTCDate + " " + formattedUTCTime);
 

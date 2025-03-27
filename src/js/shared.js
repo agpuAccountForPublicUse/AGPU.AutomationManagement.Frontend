@@ -2,7 +2,7 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
-// TODO: implement roles conditional rendering.
+// TODO: Implement roles conditional rendering.
 
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
