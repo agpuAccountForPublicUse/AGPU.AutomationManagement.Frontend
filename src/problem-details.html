@@ -57,14 +57,14 @@
         </div>
     </main>
 
-    <div class="modal" id="attach-contractor-modal">
+    <div class="modal" id="attach-contractor-window">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Прикрепить исполнителя</h2>
-                <span class="close-button" onclick="onCloseModalWindowButtonClicked('attach-contractor-modal')">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('attach-contractor-window')">&times;</span>
             </div>
 
-            <form id="attach-contractor-form" class="attach-contractor-form">
+            <form id="attach-contractor-form" class="form">
                 <label for="contractors-select"></label>
                 <select id="contractors-select"></select>
 
@@ -73,41 +73,41 @@
         </div>
     </div>
 
-    <div class="modal" id="mark-solved-modal">
+    <div class="modal" id="mark-solved-window">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Отметить выполненной</h2>
-                <span class="close-button" onclick="onCloseModalWindowButtonClicked('mark-solved-modal')">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('mark-solved-window')">&times;</span>
             </div>
 
-            <form id="mark-solved-form" class="attach-contractor-form">
-                <label for="date-input">Дата выполнения:</label>
-                <input required type="date" id="date-input">
+            <form id="mark-solved-form" class="form">
+                <label for="solving-date-input">Дата выполнения:</label>
+                <input required type="date" id="solving-date-input">
 
-                <label for="time-input">Время выполнения:</label>
-                <input required type="time" id="time-input">
+                <label for="solving-time-input">Время выполнения:</label>
+                <input required type="time" id="solving-time-input">
                 <button class="confirm-button" type="submit">Подтвердить</button>
             </form>
         </div>
     </div>
 
-    <div class="modal" id="add-comment-modal">
+    <div class="modal" id="add-comment-window">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Добавить комментарий</h2>
-                <span class="close-button" onclick="onCloseModalWindowButtonClicked('add-comment-modal')">&times;</span>
+                <span class="close-button" onclick="onCloseModalWindowButtonClicked('add-comment-window')">&times;</span>
             </div>
 
-            <form id="add-comment-form" class="attach-contractor-form">
-                <div class="rating-container">
-                    <div class="stars" id="star-rating">
+            <form id="add-comment-form" class="form">
+                <div class="modal-rating-container">
+                    <div class="stars" id="modal-stars">
                         <span class="fa fa-star" data-value="1"></span>
                         <span class="fa fa-star" data-value="2"></span>
                         <span class="fa fa-star" data-value="3"></span>
                         <span class="fa fa-star" data-value="4"></span>
                         <span class="fa fa-star" data-value="5"></span>
                     </div>
-                    <span id="rating-value">0</span>
+                    <span id="modal-rating-value">0</span>
                 </div>
                 <label for="comment-input"></label>
                 <textarea required id="comment-input" style="resize: none; height: 150px"></textarea>

@@ -28,23 +28,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         await addComment();
     });
 
-    const ratingValue = document.getElementById("rating-value");
-    const stars = document.querySelector(".stars").querySelectorAll(".fa");
+    const ratingValue = document.getElementById("modal-rating-value");
+    const stars = document.getElementById("modal-stars").querySelectorAll(".fa");
 
     stars.forEach(star => {
         star.addEventListener("click", function() {
             const rating = parseInt(this.getAttribute("data-value"));
             ratingValue.textContent = rating;
 
-            stars.forEach(s => s.classList.remove("checked"));
+            stars.forEach(s => s.classList.remove("star-checked"));
             for (let i = 0; i < rating; i++) {
-                stars[i].classList.add("checked");
+                stars[i].classList.add("star-checked");
             }
         });
     });
 });
 
-async function addComment(comment) {
+async function addComment() {
     await refreshTokensIfRequired();
 
     try {
@@ -55,7 +55,7 @@ async function addComment(comment) {
                "Authorization" : `Bearer ${getAccessToken()}`
            },
             body: JSON.stringify({
-                value: parseInt(document.getElementById("rating-value").textContent),
+                value: parseInt(document.getElementById("modal-rating-value").textContent),
                 description: document.getElementById("comment-input").value
             })
         });
@@ -78,8 +78,8 @@ async function markSolved() {
     try {
         // TODO: Решить проблему с отобржаением или передачей даты и времени.
 
-        const solvingTime = document.getElementById("time-input").value;
-        const solvingDate = document.getElementById("date-input").value;
+        const solvingTime = document.getElementById("solving-time-input").value;
+        const solvingDate = document.getElementById("solving-date-input").value;
 
         const dateObj = new Date(`${solvingDate}T${solvingTime}Z`);
 
@@ -167,53 +167,84 @@ function renderProblemDetails(problem) {
     const container = document.querySelector(".main-container");
     const statusInfo = statusesMap[problem.status];
 
+    let starsHtml = "";
+    if (problem.solvingScoreValue) {
+        const starsContainer = document.createElement("div");
+        starsContainer.classList.add("rating-container");
+
+        starsContainer.innerHTML = `
+            <div class="stars">
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                </div>
+           <span>${problem.solvingScoreValue}</span>
+    `;
+
+        let counter = 0;
+        for (const star of starsContainer.querySelector(".stars").querySelectorAll(".fa"))
+        {
+            if (counter >= problem.solvingScoreValue)
+            {
+                break;
+            }
+
+            star.classList.add("star-checked");
+            counter++;
+        }
+
+        starsHtml = starsContainer.outerHTML;
+    }
+
     container.innerHTML = `
-    <div class="header-container">
-        <h1>${problem.title}</h1>
-        <span class="status-badge" style="background-color: ${statusInfo.color};">${statusInfo.icon} ${statusInfo.ru}</span>
-    </div>
-    <hr class="separator">
- <div style="display: flex; gap: 20px">
-      <div class="description-container">
-        <h3 style="background: gray; padding: 10px; font-size: 14px; display: flex; gap: 5px">
-            <span style="color: white;">${problem.creatorFullName}</span>
-            <span style="color: lightgray"><em>создал проблему</em></span>
-            <span style="color: lightgray">${formatDateTime(problem.creationDateTime)}</span>
+    <div class="problem-header">
+    <h1>${problem.title}</h1>
+    <span class="problem-status" style="background-color: ${statusInfo.color};">
+        ${statusInfo.icon} ${statusInfo.ru}
+    </span>
+</div>
+<hr class="divider">
+<div class="problem-content">
+    <div class="problem-description">
+        <h3 class="problem-creator">
+            <span>${problem.creatorFullName}</span>
+            <span><em>создал проблему</em></span>
+            <span>${formatDateTime(problem.creationDateTime)}</span>
         </h3>
-        <textarea readonly style="resize: none; padding: 5px">${problem.description}</textarea>
+        <textarea class="description-text" readonly>${problem.description}</textarea>
     </div>
     
-    <div class="meta-container">
+    <div class="problem-meta">
         <div class="meta-item">
             <p><strong>🏢 Аудитория:</strong></p>
             <p>${problem.audience}</p>
-            <hr class="separator">
+            <hr class="divider">
         </div>
         <div class="meta-item">
             <p><strong>📌 Тип проблемы:</strong></p>
             <p>${problem.type}</p>
-            <hr class="separator">
+            <hr class="divider">
         </div>
         <div class="meta-item">
             <p><strong>👤 Исполнитель:</strong></p>
             <p>${problem.contractor?.fullName ?? ""}</p>
-            <hr class="separator">
+            <hr class="divider">
         </div>
     </div>
 </div>
-<div>
-    <p style="font-weight: 600">${problem.solvingDateTime === null ? "" : "Выполнено:"} ${formatDateTime(problem.solvingDateTime)}</p>
+<div class="problem-footer" style="display: ${problem.solvingDateTime === null ? "none" : "flex"}">
+    <p class="completion-date">Выполнено: ${formatDateTime(problem.solvingDateTime)}</p>
+    ${starsHtml}
+    <textarea style="display: ${problem.solvingScoreValue === null ? "none" : "block"}" class="solving-feedback" required>${problem.solvingScoreDescription}</textarea>
 </div>
-<p>${problem.solvingScoreValue}</p>
-<textarea required style="resize: none">${problem.solvingScoreDescription}</textarea>
-<div class="tools-container">
-    <button onclick="onOpenAttachContractorModalWindow()">Назначить исполнителя</button>
-    <button onclick="onOpenModalWindowButtonClicked('mark-solved-modal')">Завершить</button>
-    <button onclick="onOpenModalWindowButtonClicked('add-comment-modal')">Добавить комментарий</button>
+<div class="problem-actions">
+    <button onclick="onOpenAttachContractorModalWindow()" style="display: ${problem.solvingDateTime === null ? "block" : "none"}">${problem.contractor === null ? "Назначить исполнителя" : "Сменить исполнителя"}</button>
+    <button onclick="onOpenModalWindowButtonClicked('mark-solved-window')" style="display: ${problem.solvingDateTime !== null ? "none" : "block"}">Завершить</button>
+    <button onclick="onOpenModalWindowButtonClicked('add-comment-window')" style="display: ${problem.solvingScoreValue !== null || problem.solvingDateTime === null ? "none" : "block"}">Добавить комментарий</button>
 </div>
     `;
-
-    // TODO: Добавить отображение информации об оценке и комментариях.
 }
 
 async function onOpenAttachContractorModalWindow() {
@@ -246,7 +277,7 @@ async function onOpenAttachContractorModalWindow() {
                 select.selectedIndex = 0;
             }
 
-            onOpenModalWindowButtonClicked('attach-contractor-modal');
+            onOpenModalWindowButtonClicked('attach-contractor-window');
         }
         else {
             console.log(await response.text());
