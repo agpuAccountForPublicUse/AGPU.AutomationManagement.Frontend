@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function addUser() {
     await refreshTokensIfRequired();
+    document.getElementById("errors").textContent = "";
 
     const fullName = document.getElementById("fullName-input").value.trim();
     const email = document.getElementById("email-input").value.trim();
@@ -56,13 +57,7 @@ async function addUser() {
             }
             case 400: {
                 const responseData = await response.json();
-                const errors = Object.values(responseData.errors)
-                    .flat()
-                    .join('\n');
-
-                const errorsElement = document.getElementById("errors");
-                errorsElement.textContent = errors;
-                errorsElement.style.display = "block";
+                document.getElementById("errors").textContent = joinErrors(responseData.errors);
                 return;
             }
             case 401: {

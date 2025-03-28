@@ -3,7 +3,6 @@ const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
 // TODO: Implement roles conditional rendering.
-// TODO: Implement error handling.
 
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },

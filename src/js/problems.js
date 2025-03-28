@@ -33,6 +33,7 @@ function buildExtraParamsString(){
 
 async function addProblem() {
     await refreshTokensIfRequired();
+    document.getElementById("errors").textContent = "";
 
     const title = document.getElementById("title-input").value.trim();
     const description = document.getElementById("description-input").value.trim();
@@ -63,14 +64,8 @@ async function addProblem() {
                 return;
             }
             case 400: {
-                const responseData = await response.json();
-                const errors = Object.values(responseData.errors)
-                    .flat()
-                    .join('\n');
-
-                const errorsElement = document.getElementById("errors");
-                errorsElement.textContent = errors;
-                errorsElement.style.display = "block";
+                const data = await response.json();
+                document.getElementById("errors").textContent = joinErrors(data.errors);
                 return;
             }
             case 401: {

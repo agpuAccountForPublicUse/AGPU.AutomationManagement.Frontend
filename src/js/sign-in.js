@@ -17,6 +17,7 @@ function togglePasswordVisibility() {
 async function signIn(callbackUrl = null) {
     const emailOrUsername = document.getElementById("email-or-username-input").value;
     const password = document.getElementById("password-input").value;
+    document.getElementById("errors").textContent = "";
 
     const body = JSON.stringify({ emailOrUsername, password });
 
@@ -47,13 +48,7 @@ async function signIn(callbackUrl = null) {
             window.location = callbackUrl;
         }
         else if (response.status === 400) {
-            const errors = Object.values(responseData.errors)
-                .flat()
-                .join('\n');
-
-            const errorsElement = document.getElementById("errors");
-            errorsElement.textContent = errors;
-            errorsElement.style.display = "block";
+            document.getElementById("errors").textContent = joinErrors(responseData.errors);
         }
         else {
             console.log(await response.text());
