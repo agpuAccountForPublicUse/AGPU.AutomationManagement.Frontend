@@ -3,6 +3,7 @@ const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
 // TODO: Implement roles conditional rendering.
+// TODO: Implement error handling.
 
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
@@ -15,6 +16,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     appendFooterText();
     document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
 });
+
+function joinErrors(errors) {
+    return Object.values(errors)
+        .flat()
+        .join('\n');
+}
 
 function formatDateTime(dateTime) {
     if (!dateTime) {

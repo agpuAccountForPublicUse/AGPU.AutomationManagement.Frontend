@@ -68,6 +68,8 @@
                 <label for="contractors-select"></label>
                 <select id="contractors-select"></select>
 
+                <pre id="attach-contractor-errors" class="error-message"></pre>
+
                 <button class="confirm-button" type="submit">Сохранить</button>
             </form>
         </div>
@@ -86,6 +88,9 @@
 
                 <label for="solving-time-input">Время выполнения:</label>
                 <input required type="time" id="solving-time-input">
+
+                <pre id="mark-solved-errors" class="error-message"></pre>
+
                 <button class="confirm-button" type="submit">Подтвердить</button>
             </form>
         </div>
@@ -111,6 +116,9 @@
                 </div>
                 <label for="comment-input"></label>
                 <textarea required id="comment-input" style="resize: none; height: 150px"></textarea>
+
+                <pre id="add-comment-errors" class="error-message"></pre>
+
                 <button class="confirm-button" type="submit">Сохранить</button>
             </form>
         </div>

@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function addComment() {
     await refreshTokensIfRequired();
+    document.getElementById("add-comment-errors").textContent = "";
 
     try {
         const response = await fetch(`${apiBaseUrl}/problems/${problem?.id}/assign-solving-score`, {
@@ -60,11 +61,25 @@ async function addComment() {
             })
         });
 
-        if (response.ok) {
-            window.location.reload();
-        }
-        else {
-            console.log(await response.text());
+        switch (response.status) {
+            case 200:{
+                window.location.reload();
+                return;
+            }
+            case 400:{
+                const data = await response.json();
+                document.getElementById("add-comment-errors").textContent = joinErrors(data.errors);
+
+                return;
+            }
+            case 401:{
+                window.location = "sign-in.html";
+                return;
+            }
+            default: {
+                console.log(await response.text());
+                return;
+            }
         }
     }
     catch (e) {
@@ -74,6 +89,7 @@ async function addComment() {
 
 async function markSolved() {
     await refreshTokensIfRequired();
+    document.getElementById("mark-solved-errors").textContent = "";
 
     try {
         const solvingTime = document.getElementById("solving-time-input").value; // формат "HH:MM"
@@ -101,13 +117,24 @@ async function markSolved() {
             }),
         });
 
-        if (response.ok) {
-            window.location.reload();
+        switch (response.status) {
+            case 200:{
+                window.location.reload();
+                return;
+            }
+            case 400:{
+                const data = await response.json();
+                document.getElementById("mark-solved-errors").textContent = joinErrors(data.errors);
+                return;
+            }
+            case 401:{
+                window.location = "sign-in.html";
+                return;
+            }
+            default: {
+                console.log(await response.text());
+            }
         }
-        else {
-            console.log(await response.text());
-        }
-
     } catch (error) {
         console.error(error);
     }
@@ -115,6 +142,7 @@ async function markSolved() {
 
 async function attachContractor(){
     await refreshTokensIfRequired();
+    document.getElementById("add-comment-errors").textContent = "";
 
     try {
         const response = await fetch(`${apiBaseUrl}/problems/${problem?.id}/attach-contractor`, {
@@ -126,11 +154,23 @@ async function attachContractor(){
             body: JSON.stringify({ contractorId: document.getElementById("contractors-select").value }),
         });
 
-        if (response.ok) {
-            window.location.reload();
-        }
-        else {
-            console.log(await response.text());
+        switch (response.status) {
+            case 200:{
+                window.location.reload();
+                return;
+            }
+            case 400:{
+                const data = await response.json();
+                document.getElementById("add-comment-errors").textContent = joinErrors(data.errors);
+                return;
+            }
+            case 401:{
+                window.location = "sign-in.html";
+                return;
+            }
+            default: {
+                console.log(await response.text());
+            }
         }
     }
     catch (e) {
