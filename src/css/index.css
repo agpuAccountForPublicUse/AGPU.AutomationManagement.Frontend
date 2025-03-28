@@ -1,2 +1,18 @@
 @import "reset.css";
 @import "shared.css";
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    width: 100%;
+    padding-left: 350px;
+    padding-right: 350px;
+    gap: 10px;
+}
+
+.project-info, .team-info, .team-info ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
