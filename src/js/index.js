@@ -12,17 +12,19 @@ function onSignInButtonClicked() {
 
 async function isAuthenticatedIndex() {
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${apiBaseUrl}/users/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${getAccessToken()}`
+                "Authorization": `Bearer ${accessToken}`
             }
         });
 
         if (response.ok) {
             const currentUser = await response.json();
             document.getElementById("navigation-panel").style.visibility = "visible";
+            hideIfNotAdministratorOrDeputyAdministrator(accessToken, "users-navigation-item");
             showEmailIndex(currentUser.email);
         } else {
             showSignInButton();

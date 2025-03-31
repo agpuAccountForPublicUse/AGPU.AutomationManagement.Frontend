@@ -2,7 +2,10 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
-// TODO: Implement roles conditional rendering.
+const administrator = "Администратор";
+const deputyAdministrator = "Заместитель администратора";
+const engineer = "Инженер";
+const user = "Пользователь";
 
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
@@ -179,16 +182,19 @@ function onLogoutButtonClicked() {
 
 async function isAuthenticated(callbackUrl = null){
     try {
+        const accessToken = getAccessToken();
         const response = await fetch(`${apiBaseUrl}/users/me`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${getAccessToken()}`
+                "Authorization": `Bearer ${accessToken}`
             }
         });
 
         if (response.ok) {
             const currentUser = await response.json();
+            hideIfNotAdministratorOrDeputyAdministrator(accessToken, "users-navigation-item");
+
             document.getElementById("navigation-panel").style.visibility = "visible";
             showEmail(currentUser.email);
         } else {
@@ -198,6 +204,16 @@ async function isAuthenticated(callbackUrl = null){
     catch (error) {
         console.error(error);
     }
+}
+
+function hideIfNotAdministratorOrDeputyAdministrator(accessToken, elementId) {
+    const decodedToken = decodeJwtTokenPayload(accessToken);
+    const rolesArray = Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.roles];
+
+    if (!rolesArray.includes(administrator) && !rolesArray.includes(deputyAdministrator)) {
+        document.getElementById(elementId).style.display = "none";
+    }
+
 }
 
 function showEmail(email) {

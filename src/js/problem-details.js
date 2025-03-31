@@ -281,11 +281,39 @@ function renderProblemDetails(problem) {
     <textarea style="display: ${problem.solvingScoreValue === null ? "none" : "block"}" class="solving-feedback" required>${problem.solvingScoreDescription}</textarea>
 </div>
 <div class="problem-actions">
-    <button onclick="onOpenAttachContractorModalWindow()" style="display: ${problem.solvingDateTime === null ? "block" : "none"}">${problem.contractor === null ? "Назначить исполнителя" : "Сменить исполнителя"}</button>
-    <button onclick="onOpenModalWindowButtonClicked('mark-solved-window')" style="display: ${problem.solvingDateTime !== null ? "none" : "block"}">Завершить</button>
-    <button onclick="onOpenModalWindowButtonClicked('add-comment-window')" style="display: ${problem.solvingScoreValue !== null || problem.solvingDateTime === null ? "none" : "block"}">Добавить комментарий</button>
+    <button id="attach-contractor-btn" onclick="onOpenAttachContractorModalWindow()">${problem.contractor === null ? "Назначить исполнителя" : "Сменить исполнителя"}</button>
+    <button id="mark-solved-btn" onclick="onOpenModalWindowButtonClicked('mark-solved-window')">Завершить</button>
+    <button id="add-comment-btn" onclick="onOpenModalWindowButtonClicked('add-comment-window')">Добавить комментарий</button>
 </div>
     `;
+
+    const decodedToken = decodeJwtTokenPayload(getAccessToken());
+    const rolesArray = Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.roles];
+
+    document.getElementById("attach-contractor-btn").style.display =
+        problem.solvingDateTime === null &&
+        (rolesArray.includes(administrator) || rolesArray.includes(deputyAdministrator))
+         ?
+        "block"
+        :
+        "none";
+
+    document.getElementById("mark-solved-btn").style.display =
+        problem.solvingDateTime === null &&
+        decodedToken.sub === problem?.contractor?.id
+            ?
+            "block"
+            :
+            "none";
+
+    document.getElementById("add-comment-btn").style.display =
+        problem.solvingScoreValue !== null || problem.solvingDateTime === null
+            ?
+            "none"
+            :
+            "block";
+
+    // TODO: Hide add-comment-btn if logged in as not problem creator.
 }
 
 async function onOpenAttachContractorModalWindow() {
