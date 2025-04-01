@@ -307,13 +307,13 @@ function renderProblemDetails(problem) {
             "none";
 
     document.getElementById("add-comment-btn").style.display =
-        problem.solvingScoreValue !== null || problem.solvingDateTime === null
+        problem.solvingScoreValue !== null ||
+        problem.solvingDateTime === null ||
+        problem.creatorId !== decodedToken.sub
             ?
             "none"
             :
             "block";
-
-    // TODO: Hide add-comment-btn if logged in as not problem creator.
 }
 
 async function onOpenAttachContractorModalWindow() {
