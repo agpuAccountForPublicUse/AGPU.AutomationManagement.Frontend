@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("problems.html", buildExtraParamsString));
     document.getElementById("problem-statuses").addEventListener("change", onStatusChanged);
+    document.getElementById("add-problem-form").reset();
 });
 
 function buildExtraParamsString(){

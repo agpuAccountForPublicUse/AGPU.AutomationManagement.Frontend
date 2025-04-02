@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("users.html"));
+    document.getElementById("add-user-form").reset();
 });
 
 async function addUser() {
