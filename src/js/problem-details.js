@@ -292,7 +292,7 @@ function renderProblemDetails(problem) {
 
     document.getElementById("attach-contractor-btn").style.display =
         problem.solvingDateTime === null &&
-        (rolesArray.includes(administrator) || rolesArray.includes(deputyAdministrator))
+        (rolesArray.includes(administratorRole) || rolesArray.includes(deputyAdministratorRole))
          ?
         "block"
         :

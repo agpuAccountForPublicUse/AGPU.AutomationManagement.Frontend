@@ -55,6 +55,7 @@ header {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .user-info span{
@@ -188,4 +189,15 @@ footer p{
     border-radius: 5px;
     padding: 5px;
     font-size: inherit;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-container p {
+    color: white;
+    font-size: 18px;
 }

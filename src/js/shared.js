@@ -2,10 +2,10 @@ const apiBaseUrl = "http://10.0.1.208:5555/api"
 const accessTokenKey = "accessToken";
 const refreshTokenKey = "refreshToken";
 
-const administrator = "Администратор";
-const deputyAdministrator = "Заместитель администратора";
-const engineer = "Инженер";
-const user = "Пользователь";
+const administratorRole = "Администратор";
+const deputyAdministratorRole = "Заместитель администратора";
+const engineerRole = "Инженер";
+const userRole = "Пользователь";
 
 const statusesMap = {
     "Solved": { color: "green", ru: "Выполнено", icon: "✅" },
@@ -17,7 +17,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     await refreshTokensIfRequired();
     appendFooterText();
     document.getElementById("logout-button").addEventListener("click", onLogoutButtonClicked);
+    document.getElementById("email").addEventListener("click", () => onEmailClicked('profile-modal'));
 });
+
+async function onEmailClicked(modalId) {
+    try {
+        const accessToken = getAccessToken();
+        const response = await fetch(`${apiBaseUrl}/users/me`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.ok) {
+            const currentUser = await response.json();
+
+            const profileContainer = document.getElementById("profile-container");
+            profileContainer.innerHTML = "";
+            for (const prop in currentUser) {
+                const p = document.createElement("p");
+                p.innerHTML = `<strong>${prop}:</strong> ${currentUser[prop]}`;
+                profileContainer.appendChild(p);
+            }
+
+        } else {
+            window.location = `sign-in.html`;
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
+
+    onOpenModalWindowButtonClicked(modalId);
+}
 
 function joinErrors(errors) {
     return Object.values(errors)
@@ -210,7 +244,7 @@ function hideIfNotAdministratorOrDeputyAdministrator(accessToken, elementId) {
     const decodedToken = decodeJwtTokenPayload(accessToken);
     const rolesArray = Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.roles];
 
-    if (!rolesArray.includes(administrator) && !rolesArray.includes(deputyAdministrator)) {
+    if (!rolesArray.includes(administratorRole) && !rolesArray.includes(deputyAdministratorRole)) {
         document.getElementById(elementId).style.display = "none";
     }
 
