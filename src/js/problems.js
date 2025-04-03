@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("page-sizes-select").addEventListener("change", () => onPageSizeChanged("problems.html", buildExtraParamsString));
     document.getElementById("problem-statuses").addEventListener("change", onStatusChanged);
     document.getElementById("add-problem-form").reset();
+
+    const prTypesSelect = document.getElementById("problem-types-select");
+    for (const prop in problemTypesMap) {
+        const option = document.createElement("option");
+        option.value = prop;
+        option.text = problemTypesMap[prop].ru;
+        prTypesSelect.appendChild(option);
+    }
 });
 
 function buildExtraParamsString(){
@@ -123,6 +131,7 @@ async function loadProblems(pageIndex, pageSize, status) {
             <p><strong>📅 Дата создания:</strong> ${formattedDate}</p>
             <p><strong>👤 Создатель:</strong> ${problem.creatorFullName}</p>
             <p><strong>🏢 Аудитория:</strong> ${problem.audience}</p>
+            <p><strong>${problemTypesMap[problem.type].icon} Тип:</strong> ${problemTypesMap[problem.type].ru}</p>
         </div>
     `;
                 usersList.appendChild(li);

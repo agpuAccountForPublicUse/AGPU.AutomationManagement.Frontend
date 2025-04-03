@@ -264,8 +264,8 @@ function renderProblemDetails(problem) {
             <hr class="divider">
         </div>
         <div class="meta-item">
-            <p><strong>📌 Тип проблемы:</strong></p>
-            <p>${problem.type}</p>
+            <p><strong>${problemTypesMap[problem.type].icon} Тип проблемы:</strong></p>
+            <p>${problemTypesMap[problem.type].ru}</p>
             <hr class="divider">
         </div>
         <div class="meta-item">

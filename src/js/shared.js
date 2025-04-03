@@ -13,6 +13,13 @@ const statusesMap = {
     "Pending": { color: "red", ru: "В процессе рассмотрения", icon: "🕒" },
 };
 
+const problemTypesMap = {
+    "InternetIssue": { ru: "Проблемы с интернетом", icon: "🌐" },
+    "HardwareIssue": { ru: "Проблемы с железом", icon: "🖥️" },
+    "SoftwareBug": { ru: "Проблемы с ПО", icon: "🐞" },
+    "Other": { ru: "Другое", icon: "❓" },
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
     await refreshTokensIfRequired();
     appendFooterText();
